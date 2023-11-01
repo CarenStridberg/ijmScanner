@@ -1,0 +1,110 @@
+{
+	"name": "ijm-scanner",
+	"displayName": "ijm Scanner",
+	"description": "Syntax highlighting for imageJ macro lang.",
+	"author": "Lin & Autumn",
+	  "license": "GPL",
+	"version": "1.4.0",
+	"engines": {
+	  "vscode": "^1.83.0"
+	},
+	"repository": {
+	  "type": "git",
+	  "url": "https://github.com/CarenStridberg/ijmScanner"
+	},
+	"publisher": "Lin & Autumn",
+	"categories": [
+	  "Programming Languages",
+	  "Snippets"
+	],
+	"keywords": [
+		  "multi-root ready"
+	  ],
+	"activationEvents": [],
+	"main": "./client/out/extension",
+	"contributes": {
+	  "languages": [
+		{
+		  "id": "fiji",
+		  "aliases": [
+			"fiji",
+			"Fiji",
+			"imageJ",
+			"ImageJ",
+			"ImageJ macro",
+			"Fiji is just ImageJ"
+		  ],
+		  "extensions": [
+			".ijm"
+		  ],
+		  "configuration": "./language-configuration.json"
+		}
+	  ],
+	  "grammars": [
+		{
+		  "language": "fiji",
+		  "scopeName": "source.ijm",
+		  "path": "./syntaxes/ijmScanner.tmLanguage.json"
+		}
+	  ],
+	  "snippets": [
+		{
+		  "language": "fiji",
+		  "path": "./snippets/ijmScanner.tmSnippets.json"
+		}
+	  ],
+	  "commands": [
+		{
+		  "command": "ijmScanner.about",
+		  "title": "IjmScanner About"
+		},
+		{
+		  "command": "ijmScanner.license",
+		  "title": "IjmScanner License"
+		}
+	  ],
+	  "configuration": {
+			  "type": "object",
+			  "title": "IjmScanner configuration",
+			  "properties": {
+				  "ijmScanner.maxNumberOfProblems": {
+					  "scope": "resource",
+					  "type": "number",
+					  "default": 100,
+					  "description": "Controls the maximum number of problems produced by the server."
+				  },
+				  "ijmScanner.trace.server": {
+					  "scope": "window",
+					  "type": "string",
+					  "enum": [
+						  "off",
+						  "messages",
+						  "verbose"
+					  ],
+					  "default": "off",
+					  "description": "Traces the communication between VS Code and the language server."
+				  }
+			  }
+		  }
+	},
+	"scripts": {
+		  "vscode:prepublish": "npm run compile",
+		  "compile": "tsc -b",
+		  "watch": "tsc -b -w",
+		  "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
+		  "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+		  "test": "sh ./scripts/e2e.sh"
+	  },
+	"devDependencies": {
+	  "@types/vscode": "^1.83.0",
+	  "@types/mocha": "^10.0.2",
+	  "@types/node": "18.x",
+	  "@typescript-eslint/eslint-plugin": "^6.7.3",
+	  "@typescript-eslint/parser": "^6.7.3",
+	  "eslint": "^8.50.0",
+	  "glob": "^10.3.3",
+	  "mocha": "^10.2.0",
+	  "typescript": "^5.2.2",
+	  "@vscode/test-electron": "^2.3.4"
+	}
+  }

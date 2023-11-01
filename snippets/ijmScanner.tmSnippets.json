@@ -1,0 +1,57 @@
+{
+    "Macro structure": {
+        "prefix": [
+            "macro"
+        ],
+        "body": [
+            "macro \"$1\" {",
+            "\t$2",
+            "}"
+        ],
+        "description": "A macro structure."
+    },
+    "Function structure": {
+        "prefix": [
+            "function"
+        ],
+        "body": [
+            "function $1 {",
+            "\t$2",
+            "}"
+        ],
+        "description": "A function structure."
+    },
+    "For loop": {
+        "prefix": [
+            "for"
+        ],
+        "body": [
+            "for($1; $2; $3) {",
+            "\t$4",
+            "}"
+        ],
+        "description": "A for loop."
+    },
+    "While loop": {
+        "prefix": [
+            "while"
+        ],
+        "body": [
+            "while($1) {",
+            "\t$2",
+            "}"
+        ],
+        "description": "A while loop."
+    },
+    "Do while loop": {
+        "prefix": [
+            "do"
+        ],
+        "body": [
+            "do {",
+            "\t$1",
+            "} while($2)"
+        ],
+        "description": "A do-while loop."
+    }
+}

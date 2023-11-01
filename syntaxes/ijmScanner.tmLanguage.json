@@ -1,0 +1,206 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "imagej macro",
+	"patterns": [
+		{
+			"include": "#keywordControl"
+		},
+		{
+			"include": "#stringQuotedDoubleInMacroStatements"
+		},
+		{
+			"include": "#stringQuotedDouble"
+		},
+		{
+			"include": "#stringQuotedSingleInMacroStatements"
+		},
+		{
+			"include": "#stringQuotedSingle"
+		},
+		{
+			"include": "#storageType"
+		},
+		{
+			"include": "#constantLanguage"
+		},
+		{
+			"include": "#supportFunction"
+		},
+		{
+			"include": "#supportClass"
+		},
+		{
+			"include": "#commentLineDouble-slash"
+		},
+		{
+			"include": "#commentBlock"
+		}
+	],
+	"repository": {
+		"keywordControl": {
+			"patterns": [
+				{
+					"name": "keyword.control.ijmScanner",
+					"match": "\\b(if|else|while|for|do|return)\\b"
+				}
+			]
+		},
+		"stringQuotedDoubleInMacroStatements": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.ijmScanner",
+					"begin": "(macro) \"",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.ijmScanner"
+						}
+					},
+					"end": "\"",
+					"patterns": [
+						{
+							"include": "#stringQuotedDouble"
+						},
+						{
+							"name": "storage.type.ijmScanner",
+							"begin": "(\\[)",
+							"end": "(\\])",
+							"contentName": "support.function.ijmScanner"
+						},
+						{
+							"name": "storage.type.ijmScanner",
+							"match": "-( ([^\"']*)?)?"
+						}
+					]
+				}
+			]
+		},
+		"stringQuotedDouble": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.ijmScanner",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.ijmScanner",
+							"match": "\\\\"
+						}
+					]
+				}
+			]
+		},
+		"stringQuotedSingleInMacroStatements": {
+			"patterns": [
+				{
+					"name": "string.quoted.single.ijmScanner",
+					"begin": "(macro) '",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.ijmScanner"
+						}
+					},
+					"end": "'",
+					"patterns": [
+						{
+							"include": "#stringQuotedSingle"
+						},
+						{
+							"name": "storage.type.ijmScanner",
+							"begin": "(\\[)",
+							"end": "(\\])",
+							"contentName": "support.function.ijmScanner"
+						},
+						{
+							"name": "storage.type.ijmScanner",
+							"match": "-( ([^\"']*)?)?"
+						}
+					]
+				}
+			]
+		},
+		"stringQuotedSingle": {
+			"patterns": [
+				{
+					"name": "string.quoted.single.ijmScanner",
+					"begin": "'",
+					"end": "'",
+					"patterns": [
+						{
+							"name": "constant.character.escape.ijmScanner",
+							"match": "\\\\"
+						}
+					]
+				}
+			]
+		},
+		"storageType": {
+			"patterns": [
+				{
+					"name": "storage.type.ijmScanner",
+					"match": "\\b(function|macro|var)\\b"
+				}
+			]
+		},
+		"constantLanguage": {
+			"patterns": [
+				{
+					"name": "constant.language.ijmScanner",
+					"match": "\\b(true|false)\\b"
+				}
+			]
+		},
+		"supportFunction": {
+			"patterns": [
+				{
+					"begin": "\\b(\\w+)\\(",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.ijmScanner"
+						}
+					},
+					"end": "\\)",
+					"patterns": [
+						{
+							"include": "#stringQuotedDouble"
+						},
+						{
+							"include": "#stringQuotedSingle"
+						},
+						{
+							"include": "#constantLanguage"
+						},
+						{
+							"include": "#supportFunction"
+						}
+					]
+				}
+			]
+		},
+		"supportClass": {
+			"patterns": [
+				{
+					"name": "support.class.ijmScanner",
+					"match": "\\b(Array|Dialog|File|Fit|IJ|List|Overlay|Plot|Stack|String|Ext)\\b"
+				}
+			]
+		},
+		"commentLineDouble-slash": {
+			"patterns": [
+				{
+					"name": "comment.line.double-slash.ijmScanner",
+					"match": "\\/\\/.*"
+				}
+			]
+		},
+		"commentBlock": {
+			"patterns": [
+				{
+					"name": "comment.block.ijmScanner",
+					"begin": "\\/\\*",
+					"end": "\\*\\/"
+				}
+			]
+		}
+	},
+	"scopeName": "source.ijm"
+}

@@ -1,0 +1,1 @@
+Content is under the GPL License. All rights reserved.
