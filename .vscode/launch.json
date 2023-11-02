@@ -1,6 +1,6 @@
 // A launch configuration that compiles the extension and then opens it inside a new window
 {
-	"version": "1.4.0",
+	"version": "1.5.0",
 	"configurations": [
 		{
 			"type": "extensionHost",

@@ -15,5 +15,5 @@ export const completionText = {
 	Stack: ['isHyperstack', 'getDimensions', 'setDimensions', 'setChannel', 'setSlice', 'setFrame', 'getPosition', 'setPosition',
 		'getFrameRate', 'setFrameRate', 'getFrameInterval', 'setFrameInterval', 'getUnits', 'setTUnit', 'setZUnit', 'setDisplayMode', 'getDisplayMode',
 		'setActiveChannels', 'getActiveChannels', 'swap', 'getStatistics'],
-	String: ['resetBuffer', 'append', 'buffer', 'copy', 'copyResults', 'paste']
+	String: ['resetBuffer', 'append', 'buffer', 'copy', 'copyResults', 'paste'],
 };

@@ -20,3 +20,6 @@ Syntax highlighting for comments.
 
 ## 1.4.0
 Provide completion for methods.
+
+## 1.5.0
+Provide hovering info for classes.

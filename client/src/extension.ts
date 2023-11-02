@@ -29,12 +29,19 @@ export function activate(context: vscode.ExtensionContext) {
 		{
 			provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
 				const linePrefix = document.lineAt(position).text.slice(0, position.character);
-				const keyWords = Object.keys(completionText);
-				for (let i = 0; i < keyWords.length; i++) {
-					let keyWord = keyWords[i];
-					if (linePrefix.endsWith(keyWord + '.')) {
-						let methodList = completionText[keyWord];
-						return methodList.map(method => new vscode.CompletionItem(method, vscode.CompletionItemKind.Method));
+				const keysForCompletion = Object.keys(completionText);
+				for (let i = 0; i < keysForCompletion.length; i++) {
+					const key = keysForCompletion[i];
+					if (linePrefix.endsWith(key + '.')) {
+						if(position.character < 2){
+							return undefined;
+						}
+						// to exclude things like sString or sthIJ
+						let postionBefore = new vscode.Position(position.line, position.character - 2);
+						if (key == document.getText(document.getWordRangeAtPosition(postionBefore))) {
+							const methodList = completionText[key];
+							return methodList.map(method => new vscode.CompletionItem(method, vscode.CompletionItemKind.Method));
+						}
 					};
 				}
 				return undefined;
