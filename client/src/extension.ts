@@ -9,6 +9,7 @@ import {
 
 import { hoverText } from './hoverText';
 import { completionText } from './completionText';
+import { Console } from 'console';
 
 let client: LanguageClient;
 
@@ -32,11 +33,8 @@ export function activate(context: vscode.ExtensionContext) {
 				const keysForCompletion = Object.keys(completionText);
 				for (let i = 0; i < keysForCompletion.length; i++) {
 					const key = keysForCompletion[i];
-					if (linePrefix.endsWith(key + '.')) {
-						if (position.character < 2) {
-							return undefined;
-						}
-						// to exclude things like sString or sthIJ
+					if (linePrefix.endsWith(key + '.') && position.character >= 2) {
+						// to exclude things like "sString" or "sthIJ"
 						let postionBefore = new vscode.Position(position.line, position.character - 2);
 						if (key == document.getText(document.getWordRangeAtPosition(postionBefore))) {
 							const methodList = completionText[key];
@@ -66,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
 				if (Object.keys(hoverText).includes(keyWord)) {
 					return new vscode.Hover(hoverText[keyWord]);
 				};
-				
+
 				// things like C059T3e16? in macro
 				const line = document.lineAt(position).text;
 				const match = /macro (["']).*? - (.*?)\1/.exec(line);
@@ -85,6 +83,40 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	);
 	context.subscriptions.push(ijmScannerHoverProvider);
+
+	const ijmScannerColorProvider = vscode.languages.registerColorProvider(
+		'fiji',
+		{
+			provideColorPresentations(color: vscode.Color, context: { document: vscode.TextDocument, range: vscode.Range }, token: vscode.CancellationToken) {
+				let R = (Math.ceil(color.red * 15 - 0.5)).toString(16);
+				let G = (Math.ceil(color.green * 15 - 0.5)).toString(16);
+				let B = (Math.ceil(color.blue * 15 - 0.5)).toString(16);
+
+				return [new vscode.ColorPresentation(R + G + B)];
+			},
+			provideDocumentColors(document: vscode.TextDocument, token: vscode.CancellationToken) {
+				let documentText = document.getText();
+				let matches = documentText.matchAll(/macro (["']).*? - C(\w{3}).*?\1/g);
+				let positionList = [];
+				for (let match of matches) {
+					if (match) {
+						let startPosition = match.index + match[0].indexOf(match[2]);
+						let endPosition = startPosition + match[2].length;
+						let range = new vscode.Range(document.positionAt(startPosition), document.positionAt(endPosition));
+
+						let R = parseInt("0x" + match[2][0].repeat(2));
+						let G = parseInt("0x" + match[2][1].repeat(2));
+						let B = parseInt("0x" + match[2][2].repeat(2));
+						let color = new vscode.Color(R / 255, G / 255, B / 255, 1);
+
+						positionList.push(new vscode.ColorInformation(range, color));
+					}
+				}
+				return positionList;
+			}
+		}
+	);
+	context.subscriptions.push(ijmScannerColorProvider);
 
 	const serverModule = context.asAbsolutePath(
 		path.join('server', 'out', 'server.js')
