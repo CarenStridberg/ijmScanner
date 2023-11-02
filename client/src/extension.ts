@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 				for (let i = 0; i < keysForCompletion.length; i++) {
 					const key = keysForCompletion[i];
 					if (linePrefix.endsWith(key + '.')) {
-						if(position.character < 2){
+						if (position.character < 2) {
 							return undefined;
 						}
 						// to exclude things like sString or sthIJ
@@ -60,8 +60,25 @@ export function activate(context: vscode.ExtensionContext) {
 				if (/ijmScanner/i.test(keyWord)) {
 					return new vscode.Hover(hoverText.ijmScanner);
 				};
-				if (keyWord in hoverText) {
+
+				// the Object.keys() static method returns an array of a given object's own enumerable string-keyed property names
+				// we use it to prevent accidental access to properties, like macroToolIcon
+				if (Object.keys(hoverText).includes(keyWord)) {
 					return new vscode.Hover(hoverText[keyWord]);
+				};
+				
+				// things like C059T3e16? in macro
+				const line = document.lineAt(position).text;
+				const match = /macro (["']).*? - (.*?)\1/.exec(line);
+				if (match) {
+					const startPosition = line.indexOf(match[2]);
+					const endPosition = startPosition + match[2].length;
+					if (position.character >= startPosition && position.character < endPosition) {
+						return {
+							contents: [hoverText.macroToolIcon],
+							range: new vscode.Range(new vscode.Position(position.line, startPosition), new vscode.Position(position.line, endPosition))
+						};
+					}
 				};
 				return undefined;
 			}
