@@ -25,4 +25,4 @@ Syntax highlighting for comments.
 Provide completion for methods.
 
 ### 1.5.0
-Provide hovering info for classes.
+Provide hovering info for classes and macro declaration.

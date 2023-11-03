@@ -21,8 +21,12 @@ export function activate(context: vscode.ExtensionContext) {
 	const ijmScannerLicense = vscode.commands.registerCommand("ijmScanner.license", () => {
 		vscode.window.showInformationMessage('Content is under the GPL License. All rights reserved.');
 	});
+	const ijmScannerFunction = vscode.commands.registerCommand("ijmScanner.function", () => {
+		vscode.window.showInformationMessage('IjmScanner provides syntax highlighting and hovering text for ImageJ macro.');
+	});
 	context.subscriptions.push(ijmScannerAbout);
 	context.subscriptions.push(ijmScannerLicense);
+	context.subscriptions.push(ijmScannerFunction);
 
 	// method completion
 	const ijmScannerCompletionProvider = vscode.languages.registerCompletionItemProvider(
@@ -65,15 +69,27 @@ export function activate(context: vscode.ExtensionContext) {
 					return new vscode.Hover(hoverText[keyWord]);
 				};
 
-				// things like C059T3e16? in macro
 				const line = document.lineAt(position).text;
-				const match = /macro (["']).*? - (.*?)\1/.exec(line);
-				if (match) {
-					const startPosition = line.indexOf(match[2]);
-					const endPosition = startPosition + match[2].length;
+				// things like C059T3e16? in macro. only the first one in a line will have the hovering text!
+				const matchMacroToolIcon = /macro (["']).*? - (.*?)\1/.exec(line);
+				if (matchMacroToolIcon) {
+					const startPosition = line.indexOf(matchMacroToolIcon[2]);
+					const endPosition = startPosition + matchMacroToolIcon[2].length;
 					if (position.character >= startPosition && position.character < endPosition) {
 						return {
 							contents: [hoverText.macroToolIcon],
+							range: new vscode.Range(new vscode.Position(position.line, startPosition), new vscode.Position(position.line, endPosition))
+						};
+					}
+				};
+				// match "Action Tool" in macro declaration
+				const matchMacroActionTool = /macro (["']).*?(Action Tool).*?\1/.exec(line);
+				if (matchMacroActionTool) {
+					const startPosition = line.indexOf(matchMacroActionTool[2]);
+					const endPosition = startPosition + matchMacroActionTool[2].length;
+					if (position.character >= startPosition && position.character < endPosition) {
+						return {
+							contents: [hoverText.macroActionTool],
 							range: new vscode.Range(new vscode.Position(position.line, startPosition), new vscode.Position(position.line, endPosition))
 						};
 					}

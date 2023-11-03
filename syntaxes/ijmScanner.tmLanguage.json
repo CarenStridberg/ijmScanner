@@ -45,6 +45,24 @@
 				}
 			]
 		},
+		"patternInMacroStatements": {
+			"patterns": [
+				{
+					"name": "storage.type.ijmScanner",
+					"begin": "(\\[)",
+					"end": "(\\])",
+					"contentName": "support.function.ijmScanner"
+				},
+				{
+					"name": "storage.type.ijmScanner",
+					"match": "-( ([^\"']*)?)?"
+				},
+				{
+					"name": "storage.modifier.ijmScanner",
+					"match": "Action Tool"
+				}
+			]
+		},
 		"stringQuotedDoubleInMacroStatements": {
 			"patterns": [
 				{
@@ -61,14 +79,7 @@
 							"include": "#stringQuotedDouble"
 						},
 						{
-							"name": "storage.type.ijmScanner",
-							"begin": "(\\[)",
-							"end": "(\\])",
-							"contentName": "support.function.ijmScanner"
-						},
-						{
-							"name": "storage.type.ijmScanner",
-							"match": "-( ([^\"']*)?)?"
+							"include": "#patternInMacroStatements"
 						}
 					]
 				}
@@ -102,17 +113,10 @@
 					"end": "'",
 					"patterns": [
 						{
-							"include": "#stringQuotedSingle"
+							"include": "#stringQuotedDouble"
 						},
 						{
-							"name": "storage.type.ijmScanner",
-							"begin": "(\\[)",
-							"end": "(\\])",
-							"contentName": "support.function.ijmScanner"
-						},
-						{
-							"name": "storage.type.ijmScanner",
-							"match": "-( ([^\"']*)?)?"
+							"include": "#patternInMacroStatements"
 						}
 					]
 				}

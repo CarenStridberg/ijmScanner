@@ -61,7 +61,11 @@
 		{
 		  "command": "ijmScanner.license",
 		  "title": "IjmScanner License"
-		}
+		},
+		{
+			"command": "ijmScanner.function",
+			"title": "IjmScanner Function"
+		  }
 	  ],
 	  "configuration": {
 			  "type": "object",
