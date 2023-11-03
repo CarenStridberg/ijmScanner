@@ -30,6 +30,9 @@
 			"include": "#supportClass"
 		},
 		{
+			"include": "#supportConstant"
+		},
+		{
 			"include": "#commentLineDouble-slash"
 		},
 		{
@@ -185,6 +188,14 @@
 				{
 					"name": "support.class.ijmScanner",
 					"match": "\\b(Array|Dialog|File|Fit|IJ|List|Overlay|Plot|Stack|String|Ext)\\b"
+				}
+			]
+		},
+		"supportConstant": {
+			"patterns": [
+				{
+					"name": "support.constant.ijmScanner",
+					"match": "\\b(PI)\\b"
 				}
 			]
 		},

@@ -16,11 +16,14 @@ export const hoverText = {
 	String: '**String Functions**\n\nThese functions do string buffering and copy strings to and from the system clipboard.',
 
 	// keywords
-	macro: 'A macro is a simple program that automates a series of ImageJ commands.',
-	macroToolIcon: 'Tool macro icons are defined using a simple and compact instruction set consisting of a one letter commands	followed by two or more lower case hex digits.\n\n* **Crgb:** set color;\n\n* **Bxy:** set base location (default is (0,0));\n\n* **Rxywh:** draw rectangle;\n\n* **Fxywh:** draw filled rectangle;\n\n* **Oxywh**: draw oval;\n\n* **oxywh**: draw filled oval;\n\n* **Lxyxy**: draw line;\n\n* **Dxy**: draw dot (1.32g or later);\n\n* **Pxyxy...xy0**: draw polyline;\n\n* **Txyssc**: draw character;',
+	macro: 'A macro is a simple program that automates a series of ImageJ commands.\n\nTool macro icons are defined using a simple and compact instruction set consisting of a one letter commands	followed by two or more lower case hex digits.',
+	macroToolIcon: '* **Crgb:** set color;\n\n* **Bxy:** set base location (default is (0,0));\n\n* **Rxywh:** draw rectangle;\n\n* **Fxywh:** draw filled rectangle;\n\n* **Oxywh**: draw oval;\n\n* **oxywh**: draw filled oval;\n\n* **Lxyxy**: draw line;\n\n* **Dxy**: draw dot (1.32g or later);\n\n* **Pxyxy...xy0**: draw polyline;\n\n* **Txyssc**: draw character;',
 	macroActionTool: 'Tool macros with names ending in "Action Tool" perform an action when you click on their icon in the toolbar.',
 	function: 'A function is a callable block of code that can be passed values and can return a value.',
 	var: 'Global variables should be declared before the macros that use them using the \'var\' statement.\n\nThe \'var\' statement should not be used inside macro or function code blocks. Using \'var\' in a macro or function may cause it to fail.',
+
+	// methods
+	sth: '**topic**\n\n',
 };
 
 Object.defineProperty(hoverText, "macroToolIcon", { enumerable: false });

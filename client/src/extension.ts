@@ -59,17 +59,33 @@ export function activate(context: vscode.ExtensionContext) {
 		{
 			provideHover(document: vscode.TextDocument, position: vscode.Position) {
 				const keyWord = document.getText(document.getWordRangeAtPosition(position));
+				const keyNames = Object.keys(hoverText);
+				const line = document.lineAt(position).text
+
 				if (/ijmScanner/i.test(keyWord)) {
 					return new vscode.Hover(hoverText.ijmScanner);
 				};
 
 				// the Object.keys() static method returns an array of a given object's own enumerable string-keyed property names
 				// we use it to prevent accidental access to properties, like macroToolIcon
-				if (Object.keys(hoverText).includes(keyWord)) {
-					return new vscode.Hover(hoverText[keyWord]);
+				for (let i = 0; i < keyNames.length; i++) {
+					const keyName = keyNames[i];
+					const reg = new RegExp("(?:^|[^\\w])(" + keyName + ')(?:$|[^\\w])', 'g');
+					const matches = line.matchAll(reg);
+					for (let match of matches) {
+						if (match) {
+							const startPosition = match.index + match[0].indexOf(match[1]);
+							const endPosition = startPosition + match[1].length;
+							if (position.character >= startPosition && position.character < endPosition) {
+								return {
+									contents: [hoverText[keyName]],
+									range: new vscode.Range(new vscode.Position(position.line, startPosition), new vscode.Position(position.line, endPosition))
+								};
+							}
+						}
+					}
 				};
 
-				const line = document.lineAt(position).text;
 				// things like C059T3e16? in macro. only the first one in a line will have the hovering text!
 				const matchMacroToolIcon = /macro (["']).*? - (.*?)\1/.exec(line);
 				if (matchMacroToolIcon) {
